@@ -2,15 +2,19 @@ from pathlib import Path
 from os import listdir
 from utilities import get_extension
 from config import image_extensions
+from core.Photo import Photo
 
 
-def photo_search(base_path):
+def photo_search(base_path, middleware=None):
     """
     Searches for images within the provided base directory
 
     :param Path base_path: Path of the base directory to perform search in
-    :return list[Path]: List of paths to images
+    :param list middleware: List of middleware functions to apply to the identified photos
+    :return list[Photo]: List of paths to images
     """
+    if middleware is None:
+        middleware = []
 
     photos = []
     to_search = [Path(base_path)]
@@ -29,6 +33,10 @@ def photo_search(base_path):
             if extension is None:
                 continue
             elif extension in image_extensions:
-                photos.append(child)
+                new_photo = Photo(child)
+                photos.append(new_photo)
+
+                for ware in middleware:
+                    ware(new_photo)
 
     return photos
