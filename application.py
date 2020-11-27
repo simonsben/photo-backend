@@ -1,10 +1,6 @@
 from config import default_base_path
-from core.library_management import photo_search
-from utilities.image import get_path_keys
+from core.Library import Library
 
-middleware = [get_path_keys]
+library = Library(default_base_path)
 
-found = photo_search(default_base_path, middleware)
-
-for photo in found:
-    print(photo)
+print(library)

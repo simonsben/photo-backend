@@ -1,3 +1,5 @@
+# Library management utilities
+
 from pathlib import Path
 from os import listdir
 from utilities import get_extension
@@ -32,7 +34,7 @@ def photo_search(base_path, middleware=None):
             extension = get_extension(child)
             if extension is None:
                 continue
-            elif extension in image_extensions:
+            elif extension.lower() in image_extensions:
                 new_photo = Photo(child)
                 photos.append(new_photo)
 
